@@ -1,15 +1,173 @@
 #!/bin/bash
+
+# This script executes the blackduck scan for a project and validates if new components are identified and unreviewed.
+# Any unreviewed components causes the validation to fail. The goal is to prevent a release with unreviewed components.
+# 
+# DEPENDENCIES: jq
+#
+## ENV PROPERTIES ##
+# BLACKDUCK_URL_PARAM should be set in your environment with the URL of the blackduck instance to use.
+# Example: https://<BLACKDUCK_HOST>
+#
+# BLACKDUCK_TOKEN_PARAM should be set in your environment with the token to your blackduck instance to enable to connect and consume the rest API.
+#
+# PROJECT_VERSION_PARAM should be set in your environment with the name of the version where the results should be published on blackduck.
+# Example: master
+#
+# PACKAGES_PARAM should be set in your environment with the following JSON structure:
+# [
+#   {
+#       "name": "<NAME_OF_BLACKDUCK_PROJECT>",
+#       "paths": [
+#           {
+#               "path": "<PATH_WITHIN_PWD_TO_SCAN_FOR_COMPONENTS>"
+#           }
+#       ]
+#   }
+# ]
+#
+# COMPONENT_EXCEPTIONS_PARAM should be set in your environment with the list of components that should be discarded from the validation of unreviewed components
+# (e.g.: artifacts produced by project that don't include external dependences which we control the licensing)
+# Example:'@hitachivantara/uikit-react-core @hitachivantara/uikit-react-lab'
+#
+## END ENV PROPERTIES ##
+
+# BLACKDUCK_URL="${BLACKDUCK_URL_PARAM:=''}"
+BLACKDUCK_URL="https://172.16.10.110"
+BLACKDUCK_TOKEN="${BLACKDUCK_TOKEN_PARAM:=''}"
+PROJECT_VERSION="${PROJECT_VERSION_PARAM:=''}"
+PACKAGES="${PACKAGES_PARAM:=''}"
+COMPONENT_EXCEPTIONS="${COMPONENT_EXCEPTIONS_PARAM:=''}"
+
+# Creates array from the components exceptions list
+declare -a componentExceptions=($(echo $COMPONENT_EXCEPTIONS))
+
+# Blackduck API authentication endpoint
+BLACKDUCK_TOKEN_ENDPOINT="${BLACKDUCK_URL}/api/tokens/authenticate"
+
+DEBUG=0
+
+echo "********************************* Start Blackduck Component Scan *********************************" 
+
+# Download blackduck detect script
 bash <(curl -k1 https://detect.synopsys.com/detect.sh -o detect.sh) 
 chmod 777 detect.sh
 DETECT_DIR=`pwd`
 echo "DETECT_DIR - ${DETECT_DIR}"
 
-declare -a packages=("core" "lab" "icons" "themes" "code-editor")
+DETECT_ARGS="--blackduck.url=${BLACKDUCK_URL} --blackduck.api.token=${BLACKDUCK_TOKEN} --blackduck.trust.cert=true --detect.project.version.name=${PROJECT_VERSION}"
 
-DETECT_ARGS="--blackduck.url=${BLACKDUCK_URL} --blackduck.api.token=${BLACKDUCK_TOKEN} --blackduck.trust.cert=true --detect.project.version.name=master"
+# Run detect script against the provided packages
+for row in $(echo "${PACKAGES}" | jq -r '.[] | @base64'); do
+    _jq() {
+      echo ${row} | base64 --decode | jq -r ${1}
+    }
 
-for i in "${packages[@]}"
-do
-    ./detect.sh $DETECT_ARGS --detect.project.name=uikit-$i --detect.source.path=${DETECT_DIR}/packages/$i/dist 
-    ./detect.sh $DETECT_ARGS --detect.project.name=uikit-$i --detect.source.path=${DETECT_DIR}/packages/$i/src
+    packageName=$(_jq '.name')
+
+    declare -a packagePaths=($(_jq '.paths[].path' | tr "\n" " "))
+    
+    echo ""
+    echo "  Package Name: ${packageName}" 
+
+    for path in "${packagePaths[@]}" 
+    do
+        echo "  Path: ${path}" 
+        ./detect.sh $DETECT_ARGS --detect.project.name=${packageName} --detect.source.path=${DETECT_DIR}${packagePath}
+    done
 done
+
+echo "********************************* Finished Blackduck Component Scan *********************************" 
+
+# Check unreviewed components
+toReviewedComponentsCount=0
+
+
+echo "TOKEN - ${BLACKDUCK_TOKEN}"
+echo "ENDPOINT - ${BLACKDUCK_TOKEN_ENDPOINT}"
+
+# Get Bearer Token
+authTokenHeader="token ${BLACKDUCK_TOKEN}"
+bearerToken=$(curl -s --insecure -X POST -H "Accept: application/vnd.blackducksoftware.user-4+json" -H "Authorization: ${authTokenHeader}" ${BLACKDUCK_TOKEN_ENDPOINT}  | jq -r '.bearerToken')
+echo "Bearer Token - ${bearerToken}"
+
+if [[ -z ${bearerToken} ]]; then
+    echo "Unable to obtain bearer token"
+    exit 1
+fi
+
+echo "********************************* Checking Blackduck unreviewed components *********************************" 
+
+unreviewedComponentsCount=0
+
+for row in $(echo "${PACKAGES}" | jq -r '.[] | @base64'); do
+    _jq() {
+     echo ${row} | base64 --decode | jq -r ${1}
+    }
+    projectName=$(printf %s "$(_jq '.name')")
+
+    # URL Encode Package Name
+    encProjectName=$(printf %s "${projectName}" | jq -sRr @uri)
+
+    # URL Encode Version 
+    encVersion=$(printf %s "${PROJECT_VERSION}" | jq -sRr @uri)
+
+    # Get Project href
+    projectHref=$(curl -s --insecure -H "Authorization: Bearer ${bearerToken}" ${BLACKDUCK_URL}/api/projects?q=name%3A${encProjectName} | jq -r '.items[]._meta.href')
+
+    if [[ -z ${projectHref} ]]; then
+        echo "Unable to find project: ${projectName}"
+        exit 1
+    fi
+
+    # Get project version href
+    projectVersionHref=$(curl -s --insecure -H "Authorization: Bearer ${bearerToken}" ${projectHref}/versions?q=versionName%3A${encVersion} | jq -r '.items[]._meta.href')
+
+    if [[ -z ${projectVersionHref} ]]; then
+        echo "Unable to find project version: ${PROJECT_VERSION}"
+        exit 1
+    fi
+
+    # Get unreviewed components
+    unreviewedProjectComp=($(curl -s --insecure -H "Accept: application/vnd.blackducksoftware.bill-of-materials-4+json" -H "Authorization: Bearer ${bearerToken}" ${projectVersionHref}/components?filter=bomReviewStatus%3Anot_reviewed | jq -r '.items[].componentName'))
+
+    ignoredComponents=()
+    toReviewComponents=()
+
+    toReviewedProjectCompCount=0
+
+    for comp in "${unreviewedProjectComp[@]}"
+    do
+        isIgnored=false
+        for exeptComp in "${componentExceptions[@]}"
+        do
+            if [[ "$exeptComp" == "$comp" ]] ; then
+                isIgnored=true
+                break
+            fi
+        done
+
+        case $isIgnored in
+            (true)    ignoredComponents=("${ignoredComponents[@]}" "$comp");;
+            (false)   toReviewComponents=("${toReviewComponents[@]}" "$comp")
+                      toReviewedProjectCompCount=$(expr $toReviewedProjectCompCount + 1);;
+        esac
+    done
+
+    echo "   PROJECT NAME: ${projectName}"
+    echo "   PROJECT VERSION: ${PROJECT_VERSION}"
+    echo "   UNREVIEWED COMPONENTS COUNT: ${toReviewedProjectCompCount}"
+    echo "   UNREVIEWED COMPONENTS: ${toReviewComponents[*]}"
+    echo "   IGNORED COMPONENTS: ${ignoredComponents[*]}"
+    echo "" 
+
+    
+    unreviewedComponentsCount=$(expr $unreviewedComponentsCount + $toReviewedProjectCompCount)
+done
+
+echo "TOTAL UNREVIEWED COMPONENTS: ${unreviewedComponentsCount}"
+echo "**************************** Finished Checking Blackduck unreviewed components ****************************" 
+
+if [[ $unreviewedComponentsCount -gt 0 ]]; then
+    exit 1
+fi

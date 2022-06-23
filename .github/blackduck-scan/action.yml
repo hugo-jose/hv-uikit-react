@@ -1,0 +1,34 @@
+# Bash script action
+name: Blackduck Scan
+description: Scans the project, uploads the results to blackduck and checks for unreviewed components
+
+inputs:
+  server-url:
+    description: The URL of the Blackduck server
+    required: true
+  key:
+    description: The API Key to authenticate the Blackduck calls
+    required: true
+  packages:
+    description: The project packages and paths to check
+    required: true
+  exceptions:
+    description: The component exceptions to discard on the unreviewed components validation
+    required: true
+  version:
+    description: The project version (e.g. branch name)
+    required: true
+  base-path:
+    description: The packages location base path
+    required: true
+
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - ${{ inputs.serverUrl}}
+    - ${{ inputs.key}}
+    - ${{ inputs.packages}}
+    - ${{ inputs.exceptions}}
+    - ${{ inputs.version}}
+    - ${{ inputs.base_path}}
