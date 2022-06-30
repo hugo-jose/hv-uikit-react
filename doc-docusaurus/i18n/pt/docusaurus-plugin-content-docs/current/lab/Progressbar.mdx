@@ -1,0 +1,39 @@
+---
+sidebar_position: 2
+---
+
+# Progress Bar
+
+A Progress Bar transmite feedback sobre um processo que está a decorrer na aplicação.
+
+import { HvProgressBar } from "@hitachivantara/uikit-react-lab";
+
+<div
+  style={{
+    display: "flex:",
+    flexDirection: "column",
+  }}
+>
+  <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-around",
+      alignItems: "center",
+      width: 400,
+      margin: "auto",
+      marginTop: 20,
+      marginBottom: 40,
+    }}
+  >
+    <HvProgressBar
+      value={100}
+      status="completed"
+      labelProps={{
+        "aria-label": "Example Determined Progress Bar",
+        // "aria-busy":run,
+        "aria-live": "polite",
+      }}
+    />
+  </div>
+</div>
