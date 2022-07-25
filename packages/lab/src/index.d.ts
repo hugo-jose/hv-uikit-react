@@ -45,3 +45,6 @@ export * from "./DotPagination";
 
 export { default as HvControls } from "./Controls";
 export * from "./Controls";
+
+export { default as HvImageCarousel } from "./ImageCarousel";
+export * from "./ImageCarousel";
