@@ -20,16 +20,14 @@ import {
   useHvPagination,
   useHvFilters,
 } from "@hitachivantara/uikit-react-lab";
-import { Refresh } from "@hitachivantara/uikit-react-icons";
 import { withStyles } from "@mui/styles";
+
 import Kpi from "./Kpi";
-import List from "./List";
-import { getColumns, makeData } from "./makedata";
+import List from "./ListView";
 import styles from "./styles";
+import { getColumns, makeData, actions } from "./utils";
 
-const actions = [{ id: "refresh", label: "Refresh", icon: <Refresh /> }];
-
-const KpisList = ({ classes }) => {
+const ListViewKpis = ({ classes }) => {
   const originalData = useMemo(() => makeData(25), []);
   const [data] = useState(originalData);
   const columns = useMemo(() => getColumns(), []);
@@ -76,12 +74,12 @@ const KpisList = ({ classes }) => {
   };
 
   return (
-    <HvContainer>
+    <HvContainer maxWidth="lg">
       <HvGlobalActions title="Requests" backButton={false}>
         <HvButton category="primary">Request Server</HvButton>
       </HvGlobalActions>
 
-      <div className={classes.kpisListContainer}>
+      <div className={classes.container}>
         <HvGrid container>
           <HvGrid item {...breakpoints}>
             <Kpi
@@ -134,7 +132,7 @@ const KpisList = ({ classes }) => {
         </HvGrid>
       </div>
 
-      <div className={classes.kpisListControls}>
+      <div className={classes.controls}>
         <HvControls views={[]} defaultView="card" callbacks={instance}>
           <HvLeftControl
             placeholder="Search"
@@ -146,7 +144,7 @@ const KpisList = ({ classes }) => {
         </HvControls>
       </div>
 
-      <div className={classes.kpisListBulkActions}>
+      <div className={classes.bulkActions}>
         <HvBulkActions
           {...bulkActionProps}
           numTotal={data.length}
@@ -161,7 +159,7 @@ const KpisList = ({ classes }) => {
         />
       </div>
 
-      <div className={classes.kpisListPagination}>
+      <div className={classes.pagination}>
         <List instance={instance} isLoading={isLoading} />
         {instance.page?.length ? <HvPagination {...instance.getHvPaginationProps()} /> : undefined}
       </div>
@@ -169,7 +167,7 @@ const KpisList = ({ classes }) => {
   );
 };
 
-KpisList.propTypes = {
+ListViewKpis.propTypes = {
   /**
    * The CSS Classes object.
    */
@@ -177,20 +175,20 @@ KpisList.propTypes = {
     /**
      * Styles applied to the KPIs List container.
      */
-    kpisListContainer: PropTypes.string,
+    container: PropTypes.string,
     /**
      * Styles applied to the KPIs List controls section.
      */
-    kpisListControls: PropTypes.string,
+    controls: PropTypes.string,
     /**
      * Styles applied to the KPIs List bulk actions section.
      */
-    kpisListBulkActions: PropTypes.string,
+    bulkActions: PropTypes.string,
     /**
      * Styles applied to the KPIs List pagination section.
      */
-    kpisListPagination: PropTypes.string,
+    pagination: PropTypes.string,
   }),
 };
 
-export default withStyles(styles)(KpisList);
+export default withStyles(styles)(ListViewKpis);

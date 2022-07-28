@@ -1,18 +1,18 @@
 const styles = (theme) => ({
-  kpiContainer: {
-    padding: 20,
+  container: {
+    padding: theme.hv.spacing.sm,
   },
-  kpiCard: {
+  card: {
     cursor: "pointer",
   },
-  kpiTitle: {
-    margin: "10px 0",
+  title: {
+    margin: `${theme.hv.spacing.xs}px 0`,
   },
-  kpiContent: {
+  content: {
     display: "flex",
     alignItems: "center",
   },
-  kpiVariation: {
+  variation: {
     display: "flex",
     flex: 1,
     justifyContent: "flex-end",
@@ -20,18 +20,6 @@ const styles = (theme) => ({
   },
   selected: {
     outline: `1px solid ${theme.hv.palette.atmosphere.atmo5}`,
-  },
-  kpisListContainer: {
-    marginTop: 40,
-  },
-  kpisListControls: {
-    marginTop: 40,
-  },
-  kpisListBulkActions: {
-    marginTop: 20,
-  },
-  kpisListPagination: {
-    marginTop: 20,
   },
 });
 

@@ -1,8 +1,20 @@
 import React from "react";
 import { HvTooltip, HvTypography } from "@hitachivantara/uikit-react-core";
-import { Level0Good, Level1, Level2Average, Level3Bad } from "@hitachivantara/uikit-react-icons";
+import {
+  Level0Good,
+  Level1,
+  Level2Average,
+  Level3Bad,
+  Refresh,
+} from "@hitachivantara/uikit-react-icons";
 
-const getEntry = (opts) => opts[Math.floor(Math.random() * opts.length)];
+const entries = [
+  { name: "Previous", description: "Clean Data Logs" },
+  { name: "Home", description: "Review Log" },
+  { name: "Carriage", description: "Deploy Cloud Run" },
+  { name: "Black", description: "Clean Session" },
+  { name: "Forward", description: "Update Build" },
+];
 
 const getDate = () => {
   const start = new Date(2018, 1, 1);
@@ -28,16 +40,10 @@ const getBuild = () => {
   return result;
 };
 
-const entries = [
-  { name: "Previous", description: "Clean Data Logs" },
-  { name: "Home", description: "Review Log" },
-  { name: "Carriage", description: "Deploy Cloud Run" },
-  { name: "Black", description: "Clean Session" },
-  { name: "Forward", description: "Update Build" },
-];
+const getRandEntry = (opts) => opts[Math.floor(Math.random() * opts.length)];
 
-const newEntry = (i) => {
-  const entry = getEntry(entries);
+const getNewEntry = (i) => {
+  const entry = getRandEntry(entries);
   return {
     id: `${i + 1}`,
     name: entry.name,
@@ -48,6 +54,16 @@ const newEntry = (i) => {
     status: getRandomStatus(),
   };
 };
+
+export const makeData = (len = 10) => {
+  const data = [];
+  for (let i = 0; i <= len; i += 1) {
+    data.push(getNewEntry(i));
+  }
+  return data;
+};
+
+// Config Utils
 
 export const getStatusIcon = (status) => {
   switch (status) {
@@ -60,14 +76,6 @@ export const getStatusIcon = (status) => {
     default:
       return <Level1 semantic="sema2" iconSize="XS" />;
   }
-};
-
-export const makeData = (len = 10) => {
-  const data = [];
-  for (let i = 0; i <= len; i += 1) {
-    data.push(newEntry(i));
-  }
-  return data;
 };
 
 export const getColumns = () => [
@@ -110,3 +118,5 @@ export const getColumns = () => [
   { Header: "Created", accessor: "created" },
   { Header: "Build", accessor: "build", style: { width: 120 } },
 ];
+
+export const actions = [{ id: "refresh", label: "Refresh", icon: <Refresh /> }];

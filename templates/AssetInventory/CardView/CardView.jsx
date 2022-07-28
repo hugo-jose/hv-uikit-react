@@ -10,7 +10,8 @@ import {
   HvActionsGeneric,
   HvTypography,
 } from "@hitachivantara/uikit-react-core";
-import { makeIcon, idsToControl } from "./utils";
+
+import { getStatusIcon, idsToControl } from "../utils";
 
 /**
  * The card view of the Asset Inventory.
@@ -35,7 +36,7 @@ const CardView = ({ instance }) => {
             key={`${row?.values?.name}-row`}
             style={{ width: "100%" }}
             statusColor={row?.original?.statusColor}
-            icon={makeIcon(row?.original?.statusColor)}
+            icon={getStatusIcon(row?.original?.statusColor)}
           >
             <HvCardHeader title={row?.values?.name} />
             <div

@@ -10,7 +10,8 @@ import {
   HvTableHeader,
   HvTableBody,
 } from "@hitachivantara/uikit-react-lab";
-import { getColumns } from "./makedata";
+
+import { getColumns } from "../utils";
 
 /**
  * The requests table.
@@ -18,7 +19,7 @@ import { getColumns } from "./makedata";
  * @param {instance} Object the instance returned by the `useHvData` data.
  * @param {isLoading} boolean indicates whether or not the data is loading.
  */
-const List = ({ instance, isLoading }) => {
+const ListView = ({ instance, isLoading }) => {
   const columns = useMemo(() => getColumns(), []);
 
   return (
@@ -61,7 +62,7 @@ const List = ({ instance, isLoading }) => {
   );
 };
 
-List.propTypes = {
+ListView.propTypes = {
   /**
    * The instance object which contains all the data information and functions.
    */
@@ -72,4 +73,4 @@ List.propTypes = {
   isLoading: PropTypes.bool,
 };
 
-export default List;
+export default ListView;

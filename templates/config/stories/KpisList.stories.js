@@ -1,5 +1,5 @@
 import React from "react";
-import KpisList from "../../KpisList/KpisList";
+import KpisList from "../../ListViewKpis";
 
 export default {
   title: "Templates/Kpis List",

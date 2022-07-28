@@ -9,8 +9,8 @@ import {
   HvTableBody,
   HvTableCell,
 } from "@hitachivantara/uikit-react-lab";
-import { getColumns } from "./makedata";
-import { idsToControl } from "./utils";
+
+import { getColumns, idsToControl } from "../utils";
 
 /**
  * The list view of the Asset Inventory.

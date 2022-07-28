@@ -11,10 +11,10 @@ import {
   useHvBulkActions,
   useHvPagination,
 } from "@hitachivantara/uikit-react-lab";
+
 import ListView from "./ListView";
 import CardView from "./CardView";
-import { getColumns, makeData } from "./makedata";
-import { actions, views, idsToControl } from "./utils";
+import { getColumns, makeData, actions, views, idsToControl } from "./utils";
 
 const AssetInventory = () => {
   const originalData = useMemo(() => makeData(10), []);
@@ -46,6 +46,7 @@ const AssetInventory = () => {
 
   return (
     <HvContainer
+      maxWidth="lg"
       style={{
         display: "grid",
         gap: 20,

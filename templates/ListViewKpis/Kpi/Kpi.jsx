@@ -4,9 +4,10 @@ import clsx from "clsx";
 import { withStyles } from "@mui/styles";
 import { HvCard, HvTypography } from "@hitachivantara/uikit-react-core";
 import { TopXS, BottomXS } from "@hitachivantara/uikit-react-icons";
+
 import styles from "./styles";
-import { getStatusIcon } from "./makedata";
-import TrendIndicator from "./TrendIndicator";
+import { getStatusIcon } from "../utils";
+import TrendIndicator from "../TrendIndicator/TrendIndicator";
 
 /**
  * A KPI.
@@ -51,16 +52,16 @@ const Kpi = ({
       bgcolor="atmo1"
       statusColor={color}
       onClick={() => handleKpiClick(status, kpiSelection, instance, setKpiSelection)}
-      className={clsx(classes.kpiCard, status === kpiSelection && classes.selected)}
+      className={clsx(classes.card, status === kpiSelection && classes.selected)}
       icon={getStatusIcon(status)}
     >
-      <div className={classes.kpiContainer}>
+      <div className={classes.container}>
         <HvTypography variant="highlightText">{title}</HvTypography>
-        <div className={classes.kpiContent}>
-          <HvTypography variant="lTitle" className={classes.kpiTitle}>
+        <div className={classes.content}>
+          <HvTypography variant="lTitle" className={classes.title}>
             {count}
           </HvTypography>
-          <div className={classes.kpiVariation}>
+          <div className={classes.variation}>
             <TrendIndicator variation={variation} />
             {variation === "up" ? (
               <TopXS title="Up" semantic="sema1" />
@@ -117,23 +118,23 @@ Kpi.propTypes = {
     /**
      * Styles applied to the KPI container.
      */
-    kpiContainer: PropTypes.string,
+    container: PropTypes.string,
     /**
      * Styles applied to the KPI card container.
      */
-    kpiCard: PropTypes.string,
+    card: PropTypes.string,
     /**
      * Styles applied to the KPI title section.
      */
-    kpiTitle: PropTypes.string,
+    title: PropTypes.string,
     /**
      * Styles applied to the KPI variation section.
      */
-    kpiVariation: PropTypes.string,
+    variation: PropTypes.string,
     /**
      * Styles applied to the KPI content section.
      */
-    kpiContent: PropTypes.string,
+    content: PropTypes.string,
     /**
      * Styles applied to the KPI when it's selected.
      */

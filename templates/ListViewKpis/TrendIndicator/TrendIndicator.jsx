@@ -5,7 +5,7 @@ const getRandom = (min, max) => {
   return Math.floor(Math.random() * (max - min) + min);
 };
 
-const getData = (variation) => {
+const getTrendData = (variation) => {
   if (variation === "up") {
     return [
       ["Count", "Requests"],
@@ -31,7 +31,7 @@ const TrendIndicator = ({ variation }) => (
       height="32px"
       chartType="AreaChart"
       loader={<div>Loading Chart</div>}
-      data={getData(variation)}
+      data={getTrendData(variation)}
       options={{
         legend: "none",
         colors: variation === "up" ? ["green"] : ["red"],
