@@ -25,15 +25,15 @@ export default {
 
 export const Main = () => {
   const images = [
-   [DarthVader, "DarthVader"],
-   [BobaFett, "BobaFett"],
-   [Revan, "Revan"],
-   [TheMandalorian, "TheMandalorian"],
-   [Anakin, "Anakin"],
-   [Ahsoka, "Ahsoka"],
-   [ObiWan, "ObiWan"],
-   [Mace, "Mace"],
-   [Yoda, "Yoda"]
+   {src: DarthVader, value: "DarthVader"},
+   {src: BobaFett, value: "BobaFett"},
+   {src: Revan, value: "Revan"},
+   {src: TheMandalorian, value: "TheMandalorian"},
+   {src: Anakin, value: "Anakin"},
+   {src: Ahsoka, value: "Ahsoka"},
+   {src: ObiWan, value: "ObiWan"},
+   {src: Mace, value: "Mace"},
+   {src: Yoda, value: "Yoda"}
   ];
 
   const title= <HvTypography paragraph variant="normalText">Title</HvTypography>
