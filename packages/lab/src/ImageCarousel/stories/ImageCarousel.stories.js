@@ -1,5 +1,7 @@
 import React from "react";
 
+import { HvTypography } from "@hitachivantara/uikit-react-core";
+
 import { HvImageCarousel } from "../..";
 
 import DarthVader from "./resources/DarthVader.jpg";
@@ -33,5 +35,8 @@ export const Main = () => {
    [Mace, "Mace"],
    [Yoda, "Yoda"]
   ];
-  return <HvImageCarousel documents={images} />
+
+  const title= <HvTypography paragraph variant="normalText">Title</HvTypography>
+
+  return <HvImageCarousel documents={images} title={title} tumbnails lowCardinality infiniteCarousel/>
 };

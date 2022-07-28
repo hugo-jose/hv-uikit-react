@@ -1,50 +1,75 @@
 const styles = (theme) => ({
   root: {
     background: theme.hv.palette.atmosphere.atmo1,
-    overflowX: "hidden",
+    alignContent:"flex-start",
+    paddingTop:"20px",
+    paddingBottom:"20px",
+    width:"600px",
   },
   selectedImage:{
-    width: "400px",
-    height: "400px",
+    width: "100%",
+    height: "100%",
     textAlign: "center",
-    // Handle non-square image. The property isn't supported by IE 11.
     objectFit: "fill",
-    // Hide alt text.
-    color: "transparent",
-    // Hide the image broken icon, only works on Chrome.
-    textIndent: 10000,
   },
   img:{
-    width: "150px",
-    height: "100px",
+    width: "100%",
+    height: "70px",
     textAlign: "center",
-    // Handle non-square image. The property isn't supported by IE 11.
     objectFit: "fill",
-    // Hide alt text.
-    color: "transparent",
-    // Hide the image broken icon, only works on Chrome.
-    textIndent: 10000,
-    borderRadius: "10px",
+
   },
   thumbnailSelected:{
-    width: "150px",
-    height: "100px",
+    width: "100%",
+    height: "70px",
     textAlign: "center",
-    // Handle non-square image. The property isn't supported by IE 11.
     objectFit: "fill",
-    // Hide alt text.
-    color: "transparent",
-    // Hide the image broken icon, only works on Chrome.
-    textIndent: 10000,
-    borderRadius: "10px",
     borderStyle: "solid",
     borderColor: theme.hv.palette.base.base2,
     opacity: "50%",
   },
   inputImage:{
-    width: "auto",
-    height: "auto",
+    width: "110px",
+    height: "70px",
     padding: "0px 0px",
+  },
+  miniCircle:{
+    width: "5px",
+    height: "5px",
+    borderRadius: "50%",
+    backgroundColor: theme.hv.palette.atmosphere.atmo4,
+    display:"inline-block",
+    margin:"10px",
+  },
+  selectedCircle:{
+    width: "10px",
+    height: "10px",
+    borderRadius: "50%",
+    backgroundColor: theme.hv.palette.atmosphere.atmo5,
+    display:"inline-block",
+    margin:"10px",
+  },
+  lowButtons:{
+    width:"90%",
+    display:"inline-flex",
+    justifyContent:"space-between",
+    position:"relative",
+    bottom:"50%",
+  },
+  imageContainer:{
+    marginTop:"20px",
+    width:"100%",
+    height:"400px",
+    textAlign:"center",
+    paddingBottom:"10px",
+  },
+
+  stack:{
+    display:"flex",
+    width:"100%",
+    overflowX:"hidden",
+    paddingTop:"10px",
+
   }
 });
 

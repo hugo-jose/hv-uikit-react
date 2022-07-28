@@ -2,13 +2,12 @@
 
 import React from "react";
 
-import { render } from "testing-utils";
+import { render, screen } from "testing-utils";
 
-import { HvImageCarousel } from "../..";
 
 import { Main } from "../stories/ImageCarousel.stories";
 
-describe("ImageCarousel", () => {
+describe("<HvImageCarousel>", () => {
   describe("sample snapshot testing", () => {
     it("Main", () => {
       const { container } = render(<Main />);
@@ -16,13 +15,19 @@ describe("ImageCarousel", () => {
     });
   });
 
-  describe("general", () => {
-    it("renders the component as expected", () => {
-      const { getByText } = render(<HvImageCarousel />);
-
-      const container = getByText("ImageCarousel");
-
-      expect(container).toBeInTheDocument();
+  describe("general structure", () => {
+    it("renders the image carousel as expected", () => {
+      render(<Main />);
+      const title = screen.getByText("Title");
+      expect(title).toBeInTheDocument();
+      const images = screen.getAllByRole("img");
+      expect(images.length).toBe(10);
+      const buttons = screen.getAllByRole("button");
+      expect(buttons.length).toBe(11);
+      /* const numberImage = screen.getByHighlightText("1");
+      expect(numberImage).toBeInTheDocument(); */
+      const numberImages = screen.getByText("/9");
+      expect(numberImages).toBeInTheDocument();
     });
   });
 });
