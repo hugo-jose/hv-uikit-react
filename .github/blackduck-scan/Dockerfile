@@ -1,17 +1,5 @@
 # Base image 
-FROM pnt-docker.repo.orl.eng.hitachivantara.com/alpine-3-13-6-open-jre-11
-
-# installs required packages
-RUN	apk add --no-cache \
-  bash \
-  ca-certificates \
-  curl \
-  jq
-
-# updates coreutils
-RUN apk add --update coreutils
-
-ENV BDS_JAVA_HOME=/usr/bin/java
+FROM pnt-docker.repo.orl.eng.hitachivantara.com/blackducksoftware/detect:7
 
 # Copies script to the filesystem 
 COPY blackduck-check.sh /blackduck-check.sh
