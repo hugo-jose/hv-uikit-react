@@ -11,6 +11,8 @@ RUN	apk add --no-cache \
 # updates coreutils
 RUN apk add --update coreutils
 
+RUN export BDS_JAVA_HOME=$JAVA_HOME
+
 # Copies script to the filesystem 
 COPY blackduck-check.sh /blackduck-check.sh
 
