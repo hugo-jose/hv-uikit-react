@@ -26,7 +26,7 @@ const HvImageCarousel = (props) => {
     documents,
     title,
     fullscreen = false,
-    tumbnails = false,
+    thumbnails = false,
     lowCardinality = false,
     infiniteCarousel = false,
     ...others
@@ -41,7 +41,14 @@ const HvImageCarousel = (props) => {
     },
     panel: {
       overflowX: "hidden",
+      paddingLeft:"0px",
+      paddingTop:"10px",
     },
+    circles:{
+      display:"flex",
+      alignItems:"center",
+      justifyContent:"center",
+    }
   }));
   const style = useStyles();
 
@@ -77,87 +84,79 @@ const HvImageCarousel = (props) => {
       className={clsx(className, classes.root, fullscreen ? "fullscreen" : "")}
       {...others}
     >
-      <div>
-        {title}
-        <div
-          className={classes.imageContainer}
-          onFocus
-          onMouseOver={() => setImageHover(true)}
-          onBlur
-          onMouseOut={() => setImageHover(false)}
-        >
-          <img
-            className={classes.selectedImage}
-            src={documents[selImage].src}
-            alt={documents[selImage].value}
-          />
-          {lowCardinality && (
-            <div className={classes.lowButtons}>
-              <div>
-                {(infiniteCarousel || selImage !== 0) && (
-                  <HvButton
-                    className={imageHover ? style.button : ""}
-                    icon
-                    aria-label="Backwards"
-                    onClick={() => previousImage()}
-                  >
-                    <Backwards />
-                  </HvButton>
-                )}
-              </div>
-              <div>
-                {(infiniteCarousel || selImage !== documents.length - 1) && (
-                  <HvButton
-                    className={imageHover ? style.button : ""}
-                    icon
-                    aria-label="Forwards"
-                    onClick={() => nextImage()}
-                  >
-                    <Forwards />
-                  </HvButton>
-                )}
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-      <div>
-        {lowCardinality === false && (
-          <HvGrid container justifyContent="space-between" alignItems="center">
-            <HvGrid item>
+      {title}
+      <div
+        className={classes.imageContainer}
+        onFocus
+        onMouseOver={() => setImageHover(true)}
+        onBlur
+        onMouseOut={() => setImageHover(false)}
+      >
+        <img
+          className={classes.selectedImage}
+          src={documents[selImage].src}
+          alt={documents[selImage].value}
+        />
+        {lowCardinality && (
+          <div className={classes.lowButtons}>
               {(infiniteCarousel || selImage !== 0) && (
-                <HvButton icon aria-label="Backwards" onClick={() => previousImage()}>
+                <HvButton
+                  className={imageHover ? style.button : ""}
+                  icon
+                  aria-label="Backwards"
+                  onClick={() => previousImage()}
+                >
                   <Backwards />
                 </HvButton>
               )}
-            </HvGrid>
-            <HvGrid item>
-              <HvTypography variant="highlightText" component="a">
-                {selImage + 1}
-              </HvTypography>
-              <HvTypography variant="normalText" component="a">
-                {["/", documents.length]}
-              </HvTypography>
-            </HvGrid>
-            <HvGrid item>
               {(infiniteCarousel || selImage !== documents.length - 1) && (
-                <HvButton icon aria-label="Forwards" onClick={() => nextImage()}>
+                <HvButton
+                  className={imageHover ? style.button : ""}
+                  icon
+                  aria-label="Forwards"
+                  onClick={() => nextImage()}
+                >
                   <Forwards />
                 </HvButton>
               )}
-            </HvGrid>
-          </HvGrid>
+          </div>
         )}
       </div>
+      {lowCardinality === false && (
+        <HvGrid container justifyContent="space-between" alignItems="center">
+          <HvGrid item>
+            {(infiniteCarousel || selImage !== 0) && (
+              <HvButton icon aria-label="Backwards" onClick={() => previousImage()}>
+                <Backwards />
+              </HvButton>
+            )}
+          </HvGrid>
+          <HvGrid item>
+            <HvTypography variant="highlightText" component="a">
+              {selImage + 1}
+            </HvTypography>
+            <HvTypography variant="normalText" component="a">
+              {["/", documents.length]}
+            </HvTypography>
+          </HvGrid>
+          <HvGrid item>
+            {(infiniteCarousel || selImage !== documents.length - 1) && (
+              <HvButton icon aria-label="Forwards" onClick={() => nextImage()}>
+                <Forwards />
+              </HvButton>
+            )}
+          </HvGrid>
+        </HvGrid>
+      )}
       {lowCardinality && (
-        <div align="middle">
+        <div className={style.circles}>
           {documents.map((element, index) => (
             <span className={circleType(index)} />
           ))}
         </div>
       )}
       <div className={classes.stack}>
-        {tumbnails && (
+        {thumbnails && (
           <HvPanel id="Stack" className={style.panel}>
             <HvStack direction="row" spacing="xs" withNavigation>
               {documents.map((element, i) => (
@@ -224,7 +223,7 @@ HvImageCarousel.propTypes = {
 
   title: PropTypes.string,
 
-  tumbnails: PropTypes.bool,
+  thumbnails: PropTypes.bool,
 
   lowCardinality: PropTypes.bool,
   infiniteCarousel: PropTypes.bool,

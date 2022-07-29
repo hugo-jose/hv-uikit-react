@@ -2,7 +2,7 @@ const styles = (theme) => ({
   root: {
     background: theme.hv.palette.atmosphere.atmo1,
     alignContent: "flex-start",
-    paddingTop: "20px",
+    paddingTop: "30px",
     paddingBottom: "20px",
 
     "&:not(.fullscreen)": {
@@ -70,7 +70,6 @@ const styles = (theme) => ({
     display: "flex",
     width: "100%",
     overflowX: "hidden",
-    paddingTop: "10px",
   },
 });
 
