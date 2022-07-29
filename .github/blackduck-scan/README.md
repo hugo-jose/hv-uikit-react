@@ -45,5 +45,5 @@ with:
     version: 'master'
     packages: '[{"name": "<NAME_OF_BLACKDUCK_PROJECT>", "paths": [{"path": "<PATH_WITHIN_PWD_TO_SCAN_FOR_COMPONENTS>"}]}]'
     exceptions: '@hitachivantara/uikit-react-core @hitachivantara/uikit-react-lab'
-    base-path: '${{ github.workspace }}'
+    base-path: '/github/workspace'
 ```

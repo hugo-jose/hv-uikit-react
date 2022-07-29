@@ -110,4 +110,4 @@ jobs:
           version: '${{ env.CURRENT_BRANCH }}'
           packages: '${{ env.BLACKDUCK_PACKAGES_PARAM }}'
           exceptions: '${{ env.BLACKDUCK_COMPONENT_EXCEPTIONS_PARAM }}'
-          base-path: '${{ github.workspace }}'
+          base-path: '/github/workspace'
