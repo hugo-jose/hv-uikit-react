@@ -58,7 +58,7 @@ chmod 777 detect.sh
 DETECT_DIR="$SCAN_BASE_PATH"
 echo "DETECT_DIR - $DETECT_DIR"
 
-DETECT_ARGS="--debug --blackduck.url=$BLACKDUCK_URL --blackduck.api.token=$BLACKDUCK_TOKEN --blackduck.trust.cert=true --detect.project.version.name=$PROJECT_VERSION"
+DETECT_ARGS="--debug --blackduck.url=$BLACKDUCK_URL --blackduck.api.token=$BLACKDUCK_TOKEN --blackduck.trust.cert=true --detect.project.version.name=$PROJECT_VERSION --detect.phone.home.passthrough.invoked.by.image=true"
 
 # Run detect script against the provided packages
 for row in $(echo "$PACKAGES" | jq -r '.[] | @base64'); do
