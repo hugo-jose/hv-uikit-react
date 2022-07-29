@@ -58,7 +58,11 @@ chmod 777 detect.sh
 DETECT_DIR="$SCAN_BASE_PATH"
 echo "DETECT_DIR - $DETECT_DIR"
 
-ls $DETECT_DIR
+ls /root/blackduck/tools/Black_Duck_Scan_Installation
+
+echo "$JAVA_HOME"
+echo "$BDS_JAVA_HOME"
+
 
 DETECT_ARGS="--debug --blackduck.url=$BLACKDUCK_URL --blackduck.api.token=$BLACKDUCK_TOKEN --blackduck.trust.cert=true --detect.project.version.name=$PROJECT_VERSION"
 
