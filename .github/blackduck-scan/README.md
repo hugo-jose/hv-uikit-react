@@ -40,10 +40,10 @@ GitHub Action to scan a project, upload the results to the designated Blackduck 
 ```bash
 uses: ./.github/blackduck-scan
 with:
-    server_url: '<BLACKDUCK_HOST>'
+    server-url: '<BLACKDUCK_HOST>'
     key: '<BLACKDUCK_TOKEN>'
     version: 'master'
     packages: '[{"name": "<NAME_OF_BLACKDUCK_PROJECT>", "paths": [{"path": "<PATH_WITHIN_PWD_TO_SCAN_FOR_COMPONENTS>"}]}]'
     exceptions: '@hitachivantara/uikit-react-core @hitachivantara/uikit-react-lab'
-    base_path: '${{ env.GITHUB_WORKSPACE }}'
+    base-path: '${{ github.workspace }}'
 ```
