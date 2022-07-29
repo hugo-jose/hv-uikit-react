@@ -96,12 +96,6 @@ jobs:
         with:
           node-version: "16"
 
-      - name: Set up Java
-        uses: actions/setup-java@v2
-        with:
-          java-version: "11"
-          distribution: "adopt"
-
       - name: Build uikit
         run: |
           npm ci
