@@ -1,5 +1,11 @@
 # Base image 
-FROM pnt-docker.repo.orl.eng.hitachivantara.com/blackducksoftware/detect:7
+FROM pnt-docker.repo.orl.eng.hitachivantara.com/blackducksoftware/detect:7.14.0
+
+RUN	apk add --no-cache \
+  bash \
+  ca-certificates \
+  curl \
+  jq
 
 # Copies script to the filesystem 
 COPY blackduck-check.sh /blackduck-check.sh
