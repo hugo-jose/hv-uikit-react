@@ -58,6 +58,8 @@ chmod 777 detect.sh
 DETECT_DIR="$SCAN_BASE_PATH"
 echo "DETECT_DIR - $DETECT_DIR"
 
+ls $DETECT_DIR
+
 DETECT_ARGS="--debug --blackduck.url=$BLACKDUCK_URL --blackduck.api.token=$BLACKDUCK_TOKEN --blackduck.trust.cert=true --detect.project.version.name=$PROJECT_VERSION"
 
 # Run detect script against the provided packages
