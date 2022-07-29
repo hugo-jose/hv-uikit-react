@@ -7,6 +7,9 @@ RUN	apk add --no-cache \
   curl \
   jq
 
+# updates coreutils
+RUN apk add --update coreutils
+
 # Copies script to the filesystem 
 COPY blackduck-check.sh /blackduck-check.sh
 
