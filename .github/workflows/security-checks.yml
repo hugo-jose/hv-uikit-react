@@ -111,9 +111,9 @@ jobs:
       - name: Run Blackduck Scan
         uses: ./.github/blackduck-scan
         with:
-          server_url: '${{ secrets.BLACKDUCK_SERVER_URL }}'
+          server-url: '${{ secrets.BLACKDUCK_SERVER_URL }}'
           key: '${{ secrets.BLACKDUCK_TOKEN }}'
           version: '${{ env.CURRENT_BRANCH }}'
           packages: '${{ env.BLACKDUCK_PACKAGES_PARAM }}'
           exceptions: '${{ env.BLACKDUCK_COMPONENT_EXCEPTIONS_PARAM }}'
-          base_path: '${{ env.GITHUB_WORKSPACE }}'
+          base-path: '${{ env.GITHUB_WORKSPACE }}'

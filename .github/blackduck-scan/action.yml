@@ -26,9 +26,9 @@ runs:
   using: "docker"
   image: "Dockerfile"
   args:
-    - ${{ inputs.serverUrl}}
+    - ${{ inputs.server-url}}
     - ${{ inputs.key}}
     - ${{ inputs.packages}}
     - ${{ inputs.exceptions}}
     - ${{ inputs.version}}
-    - ${{ inputs.base_path}}
+    - ${{ inputs.base-path}}
