@@ -46,7 +46,7 @@ SCAN_BASE_PATH="$6"
 componentExceptions=$(echo $COMPONENT_EXCEPTIONS)
 
 # Blackduck API authentication endpoint
-BLACKDUCK_TOKEN_ENDPOINT="${BLACKDUCK_URL}/api/tokens/authenticate"
+BLACKDUCK_TOKEN_ENDPOINT="https://${BLACKDUCK_URL}/api/tokens/authenticate"
 
 DEBUG=0
 
@@ -81,10 +81,6 @@ echo "********************************* Finished Blackduck Component Scan ******
 
 # Check unreviewed components
 toReviewedComponentsCount=0
-
-
-echo "TOKEN - $BLACKDUCK_TOKEN"
-echo "ENDPOINT - $BLACKDUCK_TOKEN_ENDPOINT"
 
 # Get Bearer Token
 authTokenHeader="token $BLACKDUCK_TOKEN"
