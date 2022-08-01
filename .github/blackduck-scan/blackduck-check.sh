@@ -84,7 +84,7 @@ toReviewedComponentsCount=0
 
 # Get Bearer Token
 authTokenHeader="token $BLACKDUCK_TOKEN"
-bearerToken=$(curl --trace -s --insecure -X POST -H "Accept: application/vnd.blackducksoftware.user-4+json" -H "Authorization: $authTokenHeader" $BLACKDUCK_TOKEN_ENDPOINT  | jq -r '.bearerToken')
+bearerToken=$(curl -v -X POST -H "Accept: application/vnd.blackducksoftware.user-4+json" -H "Authorization: $authTokenHeader" $BLACKDUCK_TOKEN_ENDPOINT  | jq -r '.bearerToken')
 echo "Bearer Token - $bearerToken"
 
 if [[ -z ${bearerToken} ]]; then
