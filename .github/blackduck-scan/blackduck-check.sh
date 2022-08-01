@@ -46,7 +46,7 @@ SCAN_BASE_PATH="$6"
 componentExceptions=$(echo $COMPONENT_EXCEPTIONS)
 
 # Blackduck API authentication endpoint
-BLACKDUCK_TOKEN_ENDPOINT="https://${BLACKDUCK_URL}/api/tokens/authenticate"
+BLACKDUCK_TOKEN_ENDPOINT="${BLACKDUCK_URL}/api/tokens/authenticate"
 
 DEBUG=0
 
@@ -84,7 +84,7 @@ toReviewedComponentsCount=0
 
 # Get Bearer Token
 authTokenHeader="token $BLACKDUCK_TOKEN"
-bearerToken=$(curl -s --insecure -X POST -H "Accept: application/vnd.blackducksoftware.user-4+json" -H "Authorization: $authTokenHeader" $BLACKDUCK_TOKEN_ENDPOINT  | jq -r '.bearerToken')
+bearerToken=$(curl --trace -s --insecure -X POST -H "Accept: application/vnd.blackducksoftware.user-4+json" -H "Authorization: $authTokenHeader" $BLACKDUCK_TOKEN_ENDPOINT  | jq -r '.bearerToken')
 echo "Bearer Token - $bearerToken"
 
 if [[ -z ${bearerToken} ]]; then
